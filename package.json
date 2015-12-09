@@ -1,0 +1,13 @@
+{
+  "name": "serene-rtorrent",
+  "version": "0.0.1",
+  "description": "(WIP) rtorrent plugin for serene",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": "sidd/serene-rtorrent",
+  "keywords": [],
+  "author": "Sidd Sridharan <sidd@sidd.com> (http://sidd.com)",
+  "license": "MIT",
+}
