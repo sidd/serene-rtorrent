@@ -17,5 +17,3 @@ exports.addTorrent = function () {
     }
   }
 }
-
-exports.getTorrents().payload.promise.catch(e => console.error(e)).then(res => console.log(res))
