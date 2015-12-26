@@ -1,6 +1,6 @@
 {
   "name": "serene-rtorrent",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "(WIP) rtorrent plugin for serene",
   "main": "index.js",
   "scripts": {
@@ -9,5 +9,11 @@
   "repository": "sidd/serene-rtorrent",
   "keywords": [],
   "author": "Sidd Sridharan <sidd@sidd.com> (http://sidd.com)",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "es6-promise": "^3.0.2",
+    "isomorphic-fetch": "^2.2.0",
+    "xml2js": "^0.4.15",
+    "xmlrpc": "git://github.com/sidd/node-xmlrpc.git#3bad4da"
+  }
 }
