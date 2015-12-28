@@ -12,6 +12,7 @@
   "license": "MIT",
   "dependencies": {
     "xml2js": "^0.4.15",
-    "xmlrpc": "git://github.com/sidd/node-xmlrpc.git#3bad4da"
+    "xmlrpc": "git://github.com/sidd/node-xmlrpc.git#3bad4da",
+    "xmlrpc-multicall": "0.0.1"
   }
 }
