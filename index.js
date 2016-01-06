@@ -1,37 +1,42 @@
-var client = require('./lib/client')
+var Client = require('./lib/client')
 
-exports.name = 'rtorrent'
-exports.prettyName = 'rTorrent'
-exports.description = 'Interfaces directly with rTorrent\'s XMLRPC SCGI socket exposed via HTTP.'
+function SereneRtorrentXmlrpcPlugin (opts) {
+  this._client = new Client(opts)
+}
 
-exports.getTorrents = function () {
+SereneRtorrentXmlrpcPlugin.nameIdentifier = SereneRtorrentXmlrpcPlugin.prototype.nameIdentifier = 'rtorrent'
+SereneRtorrentXmlrpcPlugin.prettyName = SereneRtorrentXmlrpcPlugin.prototype.prettyName = 'rTorrent'
+SereneRtorrentXmlrpcPlugin.description = SereneRtorrentXmlrpcPlugin.prototype.description = 'Interfaces directly with rTorrent\'s XMLRPC SCGI socket exposed via HTTP.'
+SereneRtorrentXmlrpcPlugin.build = SereneRtorrentXmlrpcPlugin.prototype.build = SereneRtorrentXmlrpcPlugin
+
+SereneRtorrentXmlrpcPlugin.prototype.getTorrents = function (view) {
   return {
-    type: 'TORRENTS',
+    type: 'PROVIDER_TORRENTS',
     payload: {
-      promise: client.getTorrents()
+      promise: this._client.getTorrents(view)
     }
   }
 }
 
-exports.getTorrent = function (infohash) {
+SereneRtorrentXmlrpcPlugin.prototype.getTorrentDetails = function (infohash) {
   return {
-    type: 'TORRENTS_DETAILS',
+    type: 'PROVIDER_TORRENTS_DETAILS',
     payload: {
-      promise: client.getTorrent(infohash)
+      promise: this._client.getTorrentDetails(infohash)
     }
   }
 }
 
-exports.addTorrent = function (torrent) {
+SereneRtorrentXmlrpcPlugin.prototype.addTorrent = function (torrent) {
   return {
-    type: 'TORRENTS_ADD',
+    type: 'PROVIDER_TORRENTS_ADD',
     payload: {
-      promise: client.addTorrent(torrent)
+      promise: this._client.addTorrent(torrent)
     }
   }
 }
 
-exports.updateTorrentStatus = function (infohash, status) {
+SereneRtorrentXmlrpcPlugin.prototype.updateTorrentStatus = function (infohash, status) {
   if (!infohash) {
     return
   }
@@ -40,14 +45,14 @@ exports.updateTorrentStatus = function (infohash, status) {
     infohash = infohash.infohash
   }
   return {
-    type: 'TORRENTS_UPDATE',
+    type: 'PROVIDER_TORRENTS_UPDATE',
     payload: {
-      promise: client.updateTorrentStatus(infohash, status)
+      promise: this._client.updateTorrentStatus(infohash, status)
     }
   }
 }
 
-exports.removeTorrent = function (infohash) {
+SereneRtorrentXmlrpcPlugin.prototype.removeTorrent = function (infohash) {
   if (!infohash) {
     return
   }
@@ -55,9 +60,20 @@ exports.removeTorrent = function (infohash) {
     infohash = infohash.infohash
   }
   return {
-    type: 'TORRENTS_REMOVE',
+    type: 'PROVIDER_TORRENTS_REMOVE',
     payload: {
-      promise: client.removeTorrent(infohash)
+      promise: this._client.removeTorrent(infohash)
     }
   }
 }
+
+SereneRtorrentXmlrpcPlugin.prototype.getStats = function () {
+  return {
+    type: 'PROVIDER_STATS',
+    payload: {
+      promise: this._client.getStats()
+    }
+  }
+}
+
+module.exports = SereneRtorrentXmlrpcPlugin

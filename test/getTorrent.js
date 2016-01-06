@@ -1,3 +1,3 @@
-var getTorrent = require('../lib/client').getTorrent
+var getTorrentDetails = require('../lib/client').getTorrentDetails
 
-getTorrent('DAB7AA5EB753F9B275BFD31D333542AEACFC4F7B').catch(err => console.error(err)).then(res => console.log(res))
+getTorrentDetails('4CB67059ED6BD08362DA625B3AE77F6F4A075705').catch(err => console.error(err)).then(res => console.log(res))
