@@ -8,6 +8,11 @@ SereneRtorrentXmlrpcPlugin.nameIdentifier = SereneRtorrentXmlrpcPlugin.prototype
 SereneRtorrentXmlrpcPlugin.prettyName = SereneRtorrentXmlrpcPlugin.prototype.prettyName = 'rTorrent'
 SereneRtorrentXmlrpcPlugin.description = SereneRtorrentXmlrpcPlugin.prototype.description = 'Interfaces directly with rTorrent\'s XMLRPC SCGI socket exposed via HTTP.'
 SereneRtorrentXmlrpcPlugin.build = SereneRtorrentXmlrpcPlugin.prototype.build = SereneRtorrentXmlrpcPlugin
+SereneRtorrentXmlrpcPlugin.options = SereneRtorrentXmlrpcPlugin.prototype.options = {
+  host: true,
+  username: true,
+  password: true
+}
 
 SereneRtorrentXmlrpcPlugin.prototype.getTorrents = function (view) {
   return {
