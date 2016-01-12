@@ -1,6 +1,6 @@
 {
   "name": "serene-rtorrent",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "(WIP) rtorrent plugin for serene",
   "main": "index.js",
   "scripts": {
