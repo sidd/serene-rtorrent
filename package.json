@@ -4,7 +4,7 @@
   "description": "(WIP) rtorrent plugin for serene",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "tape test/*.js"
   },
   "repository": "sidd/serene-rtorrent",
   "keywords": [],
@@ -14,5 +14,19 @@
     "xml2js": "^0.4.15",
     "xmlrpc": "git://github.com/sidd/node-xmlrpc.git#3bad4da",
     "xmlrpc-multicall": "0.0.1"
+  },
+  "devDependencies": {
+    "tape": "^4.4.0",
+    "zuul": "^3.9.0"
+  },
+  "serene": {
+    "id": "rtorrent",
+    "name": "rTorrent",
+    "description": "Interfaces directly with rTorrent's XMLRPC SCGI socket exposed via HTTP.",
+    "options": [
+      "host",
+      "username",
+      "password"
+    ]
   }
 }
