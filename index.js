@@ -1,84 +1,104 @@
-var Client = require('./lib/client')
+var Agent = require('./lib/agent')
 
-function SereneRtorrentXmlrpcPlugin (opts) {
-  this._client = new Client(opts)
+function wrap (methods, types) {
+  var wrapped = {}
+
+  for (var fn in methods) {
+    wrapped[fn] = action(methods[fn], types[fn])
+  }
+
+  return wrapped
 }
 
-SereneRtorrentXmlrpcPlugin.nameIdentifier = SereneRtorrentXmlrpcPlugin.prototype.nameIdentifier = 'rtorrent'
-SereneRtorrentXmlrpcPlugin.prettyName = SereneRtorrentXmlrpcPlugin.prototype.prettyName = 'rTorrent'
-SereneRtorrentXmlrpcPlugin.description = SereneRtorrentXmlrpcPlugin.prototype.description = 'Interfaces directly with rTorrent\'s XMLRPC SCGI socket exposed via HTTP.'
-SereneRtorrentXmlrpcPlugin.build = SereneRtorrentXmlrpcPlugin.prototype.build = SereneRtorrentXmlrpcPlugin
-SereneRtorrentXmlrpcPlugin.options = SereneRtorrentXmlrpcPlugin.prototype.options = {
-  host: true,
-  username: true,
-  password: true
-}
 
-SereneRtorrentXmlrpcPlugin.prototype.getTorrents = function (view) {
-  return {
-    type: 'PROVIDER_TORRENTS',
-    payload: {
-      promise: this._client.getTorrents(view)
+function action (fn, type, prefix) {
+  prefix = prefix || 'PROVIDER_'
+
+  return function () {
+    var args = [].slice.call(arguments)
+
+    return {
+      type: prefix + type,
+      payload: {
+        promise: fn.call(null, args)
+      }
     }
   }
 }
 
-SereneRtorrentXmlrpcPlugin.prototype.getTorrentDetails = function (infohash) {
-  return {
-    type: 'PROVIDER_TORRENTS_DETAILS',
-    payload: {
-      promise: this._client.getTorrentDetails(infohash)
-    }
-  }
+module.exports = SereneRtorrentProvider
+
+function SereneRtorrentProvider (opts) {
+  this.agent = new Agent(opts)
 }
 
-SereneRtorrentXmlrpcPlugin.prototype.addTorrent = function (torrent) {
-  return {
-    type: 'PROVIDER_TORRENTS_ADD',
-    payload: {
-      promise: this._client.addTorrent(torrent)
-    }
-  }
-}
+SereneRtorrentProvider.prototype = wrap(Agent.prototype, {
+  addTorrents: 'TORRENTS_ADD',
+  getTorrents: 'TORRENTS',
+  testConnection: 'CONNECTION_TEST'
+})
 
-SereneRtorrentXmlrpcPlugin.prototype.updateTorrentStatus = function (infohash, status) {
-  if (!infohash) {
-    return
-  }
-  if (typeof infohash === 'object') {
-    status = infohash.status
-    infohash = infohash.infohash
-  }
-  return {
-    type: 'PROVIDER_TORRENTS_UPDATE',
-    payload: {
-      promise: this._client.updateTorrentStatus(infohash, status)
-    }
-  }
-}
+// SereneRtorrentProvider.prototype.addTorrent = function (torrent) {
+//   return {
+//     type: 'PROVIDER_TORRENTS_ADD',
+//     payload: {
+//       promise: this.requester.addTorrent(torrent)
+//     }
+//   }
+// }
 
-SereneRtorrentXmlrpcPlugin.prototype.removeTorrent = function (infohash) {
-  if (!infohash) {
-    return
-  }
-  if (typeof infohash === 'object') {
-    infohash = infohash.infohash
-  }
-  return {
-    type: 'PROVIDER_TORRENTS_REMOVE',
-    payload: {
-      promise: this._client.removeTorrent(infohash)
-    }
-  }
-}
+// SereneRtorrentProvider.prototype.updateTorrentStatus = function (infohash, status) {
+//   if (!infohash) {
+//     return
+//   }
+//   if (typeof infohash === 'object') {
+//     status = infohash.status
+//     infohash = infohash.infohash
+//   }
+//   return {
+//     type: 'PROVIDER_TORRENTS_UPDATE',
+//     payload: {
+//       promise: this.requester.updateTorrentStatus(infohash, status)
+//     }
+//   }
+// }
 
-SereneRtorrentXmlrpcPlugin.prototype.getStats = function () {
-  return {
-    type: 'PROVIDER_STATS',
-    payload: {
-      promise: this._client.getStats()
-    }
-  }
-}
+// SereneRtorrentProvider.prototype.removeTorrent = function (infohash) {
+//   if (!infohash) {
+//     return
+//   }
+//   if (typeof infohash === 'object') {
+//     infohash = infohash.infohash
+//   }
+//   return {
+//     type: 'PROVIDER_TORRENTS_REMOVE',
+//     payload: {
+//       promise: this.requester.removeTorrent(infohash)
+//     }
+//   }
+// }
 
-module.exports = SereneRtorrentXmlrpcPlugin
+// SereneRtorrentProvider.prototype.getStats = function () {
+//   return {
+//     type: 'PROVIDER_STATS',
+//     payload: {
+//       promise: this.requester.getStats()
+//     }
+//   }
+// }
+
+// SereneRtorrentProvider.prototype.testConnection = function (connectionId) {
+//   var data = {}
+//   data[connectionId] = {
+//     isFetching: true
+//   }
+
+//   return {
+//     type: 'PROVIDER_CONNECTION_TEST',
+//     payload: {
+//       promise: this.requester.testConnection(),
+//       data: data
+//     }
+//   }
+// }
+
