@@ -3,25 +3,25 @@ var Agent = require('../../lib/agent')
 var xml2js = require('xml2js').parseString
 var Serializer = require('xmlrpc/lib/Serializer')
 
-// test('multicall: queries non-namespaced parameters', function (t) {
-//   var query = Agent.multicall(['get_up_total', 'get_down_total'])
+test('multicall: queries non-namespaced parameters', function (t) {
+  var query = Agent._multicall(['get_up_total', 'get_down_total'])
 
-//   t.ok(Array.isArray(query), 'generates array with keys')
-//   t.ok(query[0] === 'system.multicall', 'method is system.multicall')
+  t.ok(Array.isArray(query), 'generates array with keys')
+  t.ok(query[0] === 'system.multicall', 'method is system.multicall')
 
-//   var serialized = Serializer.serializeMethodCall(query[0], query.slice(1))
+  var serialized = Serializer.serializeMethodCall(query[0], query.slice(1))
 
-//   xml2js(serialized, function (err, result) {
-//     if (err) return t.fail('invalid xml')
-//     t.ok(result.methodCall.methodName[0] === 'system.multicall', 'multicall is serialized')
-//     t.ok(result.methodCall.params[0]
-//       .param[0].value[0].array[0]
-//       .data[0].value[0].array[0]
-//       .data[0].value[0].struct[0]
-//       .member[0].value[0].string[0] === 'get_up_total', 'method is serialized')
-//     t.end()
-//   })
-// })
+  xml2js(serialized, function (err, result) {
+    if (err) return t.fail('invalid xml')
+    t.ok(result.methodCall.methodName[0] === 'system.multicall', 'multicall is serialized')
+    t.ok(result.methodCall.params[0]
+      .param[0].value[0].array[0]
+      .data[0].value[0].array[0]
+      .data[0].value[0].struct[0]
+      .member[0].value[0].string[0] === 'get_up_total', 'method is serialized')
+    t.end()
+  })
+})
 
 test('multicall: generates non-system multicall for single cmd', function (t) {
   var query = Agent._multicall({
