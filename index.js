@@ -35,7 +35,7 @@ function action (fn, type, prefix) {
     return {
       type: prefix + type,
       payload: {
-        promise: fn.call(this.agent, args)
+        promise: fn.apply(this.agent, args)
       }
     }
   }
