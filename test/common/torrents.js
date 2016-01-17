@@ -13,18 +13,6 @@ function delay (time) {
   })
 }
 
-// move to node-only test
-test('addTorrents: adds torrents from buffers', function (t) {
-  var buf1 = fs.readFileSync(path.resolve(__dirname, '../xubuntu.torrent'))
-  var buf2 = fs.readFileSync(path.resolve(__dirname, '../ubuntu.torrent'))
-  var agent = new Agent(opts)
-
-  agent.addTorrents([buf1, buf2]).then(function (res) {
-    t.ok(res === 0, 'response received')
-    return delay(1000).then(t.end)
-  })
-})
-
 test('getTorrents: returns active torrents', function (t) {
   var agent = new Agent(opts)
 
