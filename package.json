@@ -4,7 +4,8 @@
   "description": "(WIP) rtorrent plugin for serene",
   "main": "index.js",
   "scripts": {
-    "test": "tape test/*.js"
+    "test": "tape -r ./test/setup.js test/common/*.js",
+    "test-browser-local": "zuul --local -- test/common/*.js"
   },
   "repository": "sidd/serene-rtorrent",
   "keywords": [],

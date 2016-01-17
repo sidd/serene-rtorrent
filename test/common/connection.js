@@ -1,13 +1,7 @@
 var test = require('tape')
-var Provider = require('../')
-var Agent = require('../lib/agent')
+var Provider = require('../../')
+var Agent = require('../../lib/agent')
 var opts = { host: 'http://localhost:8080/RPC2' }
-
-if (process) {
-  process.on('unhandledRejection', function (reason, p) {
-    console.log(p)
-  })
-}
 
 test('throws if no connection info specified', function (t) {
   try {

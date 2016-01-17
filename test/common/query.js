@@ -1,13 +1,7 @@
 var test = require('tape')
-var Agent = require('../lib/agent')
+var Agent = require('../../lib/agent')
 var xml2js = require('xml2js').parseString
 var Serializer = require('xmlrpc/lib/Serializer')
-
-if (process) {
-  process.on('unhandledRejection', function (reason, p) {
-    console.log(p)
-  })
-}
 
 // test('multicall: queries non-namespaced parameters', function (t) {
 //   var query = Agent.multicall(['get_up_total', 'get_down_total'])
@@ -30,7 +24,7 @@ if (process) {
 // })
 
 test('multicall: generates non-system multicall for single cmd', function (t) {
-  var query = Agent.multicall({
+  var query = Agent._multicall({
     'd.multicall': ['d.get_hash=', 'd.is_open=', 'd.is_hash_checking=', 'd.is_hash_checked=']
   })
 
@@ -45,7 +39,7 @@ test('multicall: generates system.multicall for multiple cmds', function (t) {
     't.multicall': ['', '', 't.get_group=', 't.get_id=', 't.get_min_interval=', 't.get_normal_interval=']
   }
 
-  var query = Agent.multicall(commands)
+  var query = Agent._multicall(commands)
 
   t.ok(query[0] === 'system.multicall', 'response is a system.multicall')
   t.ok(query[1][0][0].params.length === commands['f.multicall'].length, 'params sent are same as specified')
