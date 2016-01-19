@@ -2,7 +2,7 @@
   "name": "serene-rtorrent",
   "version": "0.1.0",
   "description": "(WIP) rtorrent plugin for serene",
-  "main": "index.js",
+  "main": "SerenePlugin.js",
   "scripts": {
     "test": "tape -r ./test/setup.js test/common/*.js test/node/*.js",
     "test-browser-local": "zuul --local -- test/common/*.js"
@@ -12,11 +12,10 @@
   "author": "Sidd Sridharan <sidd@sidd.com> (http://sidd.com)",
   "license": "MIT",
   "dependencies": {
-    "xml2js": "^0.4.15",
     "xmlrpc": "git://github.com/sidd/node-xmlrpc.git#3bad4da",
-    "xmlrpc-multicall": "0.0.1"
   },
   "devDependencies": {
+    "xml2js": "^0.4.15",
     "tape": "^4.4.0",
     "zuul": "^3.9.0"
   },

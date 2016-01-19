@@ -3,6 +3,7 @@ module.exports = SereneRtorrentProvider
 var Agent = require('./lib/agent')
 
 function SereneRtorrentProvider (opts) {
+  this.opts = opts
   this.agent = new Agent(opts)
 }
 
